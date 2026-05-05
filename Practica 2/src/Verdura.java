@@ -56,7 +56,7 @@ public class Verdura {
         }
     }
 
-    public void marcarComoOrganico() {
+    public void marcarPremium() {
         this.premium = true;
         this.precioPorKilo += 5.0; //Subimos el precio por ser premium
     }
