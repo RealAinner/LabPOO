@@ -25,6 +25,6 @@ abstract class Alimento extends Productos{
     }
 
     public boolean AptoParaConsumo(){
-        return caducidad > 0;
+        return caducidad > 1;
     }
 }

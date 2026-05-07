@@ -19,7 +19,7 @@ class Verdura extends Alimento {
     @Override
     public String MostrarInfo() {
         String Premium = (premium) ? "Si, aumenta un 20%" : "No";
-        String descuento = (caducidad < 3) ? "50%" : "0%";
+        String descuento = (caducidad < 3) ? "50%" : "-";
         return String.format("| %-5s | %-20s | %-15.2f | %-17d | %-20s | %-10s | %-15.2f |"
             ,ID, nombre, PrecioBase, caducidad, Premium, descuento, CalcularPrecio());
     }
@@ -27,6 +27,6 @@ class Verdura extends Alimento {
     @Override
     public boolean AptoParaConsumo(){
         //Sobrescribe la logica: las verduras no se consumen si vencen en menos de 1 dia
-        return super.AptoParaConsumo() && caducidad > 1;
+        return super.AptoParaConsumo() && caducidad > 2;
     }
 }
