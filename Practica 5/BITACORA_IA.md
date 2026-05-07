@@ -17,7 +17,7 @@ agregando combos o descuentos. Asi obligas a todas las clases concretas a implem
   
 OP: y que ventajas tendria usar una clase abstracta en lugar de poner todo directamente en las clases hijas?  
   
-Asistente: La principal ventaja es evitar duplicacion de codigo. La clase abstracta permite centralizar atributos y comportamientos comunes  
+IA: La principal ventaja es evitar duplicacion de codigo. La clase abstracta permite centralizar atributos y comportamientos comunes  
 que todas las funciones comparten. Por ejemplo, los atributos titulo, duracion y precio existen en cualquier tipo de funcion del cine.  
 Tambien puedes incluir getters, setters y validaciones una sola vez. Ademas, una clase abstracta puede tener tanto metodos concretos como  
 abstractos, lo cual es muy util para implementar el patron Template Method.
