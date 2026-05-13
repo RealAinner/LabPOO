@@ -1,0 +1,3 @@
+[REGISTRO]: Error en Tomate: El precio debe ser mayor a cero.
+[REGISTRO]: Error en Cebolla: El peso debe ser positivo.
+[REGISTRO]: Fallo de inventario: | Producto: Aguacate | Pedido: 50.00 kg | Stock: 5.50 kg | Fecha: 2026-05-07T22:48:58.109905600 |
