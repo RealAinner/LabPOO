@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<empleados>
+  <empleado>
+    <id>1</id>
+    <nombre>Carlos Mendoza</nombre>
+    <puesto>Gerente</puesto>
+    <salario>55000.0</salario>
+    <fechaIngreso>2019-03-15</fechaIngreso>
+  </empleado>
+  <empleado>
+    <id>2</id>
+    <nombre>Laura Perez</nombre>
+    <puesto>Analista</puesto>
+    <salario>32000.0</salario>
+    <fechaIngreso>2021-07-01</fechaIngreso>
+  </empleado>
+  <empleado>
+    <id>3</id>
+    <nombre>Roberto Silva</nombre>
+    <puesto>Desarrollador</puesto>
+    <salario>40000.0</salario>
+    <fechaIngreso>2020-11-20</fechaIngreso>
+  </empleado>
+  <empleado>
+    <id>4</id>
+    <nombre>Maria Torres</nombre>
+    <puesto>Recursos Humanos</puesto>
+    <salario>30000.0</salario>
+    <fechaIngreso>2022-01-10</fechaIngreso>
+  </empleado>
+  <empleado>
+    <id>5</id>
+    <nombre>Juan Garza</nombre>
+    <puesto>Contador</puesto>
+    <salario>35000.0</salario>
+    <fechaIngreso>2018-06-05</fechaIngreso>
+  </empleado>
+  <empleado>
+    <id>6</id>
+    <nombre>Nestor Hinojosa</nombre>
+    <puesto>Desarrollador</puesto>
+    <salario>34000.0</salario>
+    <fechaIngreso>2022-03-11</fechaIngreso>
+  </empleado>
+  <empleado>
+    <id>7</id>
+    <nombre>Andres Hernandez</nombre>
+    <puesto>Recursos Humanos</puesto>
+    <salario>35000.0</salario>
+    <fechaIngreso>2020-08-02</fechaIngreso>
+  </empleado>
+</empleados>
