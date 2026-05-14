@@ -7,7 +7,7 @@ public class FondoNomina {
     }
 
     public synchronized boolean Depositar(double monto, String origen){
-        if (monto <= 0) return false;
+        if(monto <= 0) return false;
         saldo += monto;
         Log.Imprimir("[DEPOSITO] " + origen + " deposito $" + monto + " | Saldo: $" + saldo);
         notifyAll();
