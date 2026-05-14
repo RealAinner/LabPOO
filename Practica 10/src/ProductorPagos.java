@@ -2,7 +2,7 @@ public class ProductorPagos implements Runnable {
     private final BufferPagos buffer;
     private final String[] empleados;
 
-    public ProductorPagos(BufferPagos buffer, String[] empleados) {
+    public ProductorPagos(BufferPagos buffer, String[] empleados){
         this.buffer = buffer;
         this.empleados = empleados;
     }
