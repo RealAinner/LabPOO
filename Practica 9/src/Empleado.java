@@ -24,7 +24,7 @@ public class Empleado implements Serializable {
     }
 
     public static boolean ValidarNombre(String nombre){
-        return nombre != null && nombre.matches("[a-zA-Z ]{2,50}");
+        return nombre != null && nombre.matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]{2,50}");
     }
 
     public static boolean ValidarPuesto(String puesto){

@@ -131,7 +131,7 @@ public class Main {
         try{
             int id = Integer.parseInt(scanner.nextLine().trim());
             Empleado encontrado = BuscarPorId(id);
-            if (encontrado == null) { System.out.println("No encontrado."); return; }
+            if (encontrado == null) { System.out.println("Empleado con ese ID no existe en el registro."); return; }
             String ruta = DirDatos + "/empleado_" + id + ".bin";
             Empleado.Guardar(encontrado, ruta);
             System.out.println("Guardado en: " + ruta);
