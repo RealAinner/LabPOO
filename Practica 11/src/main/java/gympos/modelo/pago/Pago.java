@@ -17,7 +17,7 @@ public class Pago implements Serializable {
     private EstadoPago estado;
     private LocalDateTime FechaPago;
 
-    public Pago(int id, int IdCliente, int IdMembresia, double monto, MetodoPago metodo){
+    public Pago(int id, int IdCliente, int IdMembresia, double monto, MetodoPago metodo) {
         this.id = id;
         this.IdCliente = IdCliente;
         this.IdMembresia = IdMembresia;

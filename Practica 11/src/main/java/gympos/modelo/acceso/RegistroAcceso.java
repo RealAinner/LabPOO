@@ -17,11 +17,11 @@ public class RegistroAcceso implements Serializable {
         this.entrada = LocalDateTime.now();
     }
 
-    public int GetId() { return id; }
+    public int GetId() { return id;}
     public int GetIdCliente() { return IdCliente; }
-    public LocalDateTime GetEntrada() { return entrada; }
+    public LocalDateTime GetEntrada() { return entrada;}
     public LocalDateTime GetSalida() { return salida; }
     public void SetSalida(LocalDateTime salida) { this.salida = salida; }
 
-    public boolean EstaAdentro() { return salida == null; }
+    public boolean EstaAdentro() { return salida == null;}
 }

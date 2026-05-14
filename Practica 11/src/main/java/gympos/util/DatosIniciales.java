@@ -14,7 +14,7 @@ import java.util.List;
 
 public class DatosIniciales {
 
-    public static List<Cliente> GenerarClientes(){
+    public static List<Cliente> GenerarClientes() {
         List<Cliente> lista = new ArrayList<>();
         String[][] datos = {
             {"Carlos","Herrera","carlos.herrera@mail.com","8112345678"},
@@ -38,7 +38,7 @@ public class DatosIniciales {
             {"Andres","Ramos","andres.ramos@mail.com","8115432109"},
             {"Patricia","Ibarra","patricia.ibarra@mail.com","8119012346"}
         };
-        for(int i = 0; i < datos.length; i++){
+        for (int i = 0; i < datos.length; i++) {
             Cliente c = new Cliente(i + 1, datos[i][0], datos[i][1], datos[i][2], datos[i][3]);
             c.SetPuntos((i + 1) * 15);
             lista.add(c);
@@ -46,10 +46,10 @@ public class DatosIniciales {
         return lista;
     }
 
-    public static List<Membresia> GenerarMembresias(){
+    public static List<Membresia> GenerarMembresias() {
         List<Membresia> lista = new ArrayList<>();
         TipoMembresia[] tipos = TipoMembresia.values();
-        for(int i = 1; i <= 20; i++){
+        for (int i = 1; i <= 20; i++) {
             Membresia m = new Membresia(i, i, tipos[i % tipos.length]);
             m.SetRenovacionAutomatica(i % 3 == 0);
             lista.add(m);
@@ -57,10 +57,10 @@ public class DatosIniciales {
         return lista;
     }
 
-    public static List<Pago> GenerarPagos(){
+    public static List<Pago> GenerarPagos() {
         List<Pago> lista = new ArrayList<>();
         Pago.MetodoPago[] metodos = Pago.MetodoPago.values();
-        for(int i = 1; i <= 20; i++){
+        for (int i = 1; i <= 20; i++) {
             Pago p = new Pago(i, i, i, 299.0 + (i * 50), metodos[i % metodos.length]);
             p.SetEstado(Pago.EstadoPago.COMPLETADO);
             lista.add(p);
@@ -68,7 +68,7 @@ public class DatosIniciales {
         return lista;
     }
 
-    public static List<Equipo> GenerarEquipos(){
+    public static List<Equipo> GenerarEquipos() {
         List<Equipo> lista = new ArrayList<>();
         String[][] eq = {
             {"Caminadora","Cardio","8"},
@@ -80,13 +80,13 @@ public class DatosIniciales {
             {"Cable cruzado","Fuerza","2"},
             {"Bolsa de boxeo","Combate","4"}
         };
-        for(int i = 0; i < eq.length; i++){
+        for (int i = 0; i < eq.length; i++) {
             lista.add(new Equipo(i + 1, eq[i][0], eq[i][1], Integer.parseInt(eq[i][2])));
         }
         return lista;
     }
 
-    public static List<ClaseGrupal> GenerarClases(){
+    public static List<ClaseGrupal> GenerarClases() {
         List<ClaseGrupal> lista = new ArrayList<>();
         String[][] cl = {
             {"Zumba","Diana Ruiz"},
@@ -96,17 +96,17 @@ public class DatosIniciales {
             {"Pilates","Tania Rios"}
         };
         LocalDateTime base = LocalDateTime.now().plusDays(1).withHour(8).withMinute(0);
-        for(int i = 0; i < cl.length; i++){
+        for (int i = 0; i < cl.length; i++) {
             lista.add(new ClaseGrupal(i + 1, cl[i][0], cl[i][1], base.plusHours(i * 2), 15));
         }
         return lista;
     }
 
-    public static List<RegistroAcceso> GenerarAccesos(){
+    public static List<RegistroAcceso> GenerarAccesos() {
         List<RegistroAcceso> lista = new ArrayList<>();
-        for(int i = 1; i <= 10; i++){
+        for (int i = 1; i <= 10; i++) {
             RegistroAcceso r = new RegistroAcceso(i, i);
-            if(i <= 7) r.SetSalida(LocalDateTime.now().minusHours(i));
+            if (i <= 7) r.SetSalida(LocalDateTime.now().minusHours(i));
             lista.add(r);
         }
         return lista;

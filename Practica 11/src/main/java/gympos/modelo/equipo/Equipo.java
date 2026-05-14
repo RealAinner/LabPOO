@@ -13,7 +13,7 @@ public class Equipo implements Serializable {
     private EstadoEquipo estado;
     private int cantidad;
 
-    public Equipo(int id, String nombre, String categoria, int cantidad){
+    public Equipo(int id, String nombre, String categoria, int cantidad) {
         this.id = id;
         this.nombre = nombre;
         this.categoria = categoria;

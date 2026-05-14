@@ -14,7 +14,7 @@ public class Membresia implements Serializable {
     private boolean activa;
     private boolean RenovacionAutomatica;
 
-    public Membresia(int id, int IdCliente, TipoMembresia tipo){
+    public Membresia(int id, int IdCliente, TipoMembresia tipo) {
         this.id = id;
         this.IdCliente = IdCliente;
         this.tipo = tipo;
@@ -37,17 +37,17 @@ public class Membresia implements Serializable {
     public boolean IsRenovacionAutomatica() { return RenovacionAutomatica; }
     public void SetRenovacionAutomatica(boolean val) { this.RenovacionAutomatica = val; }
 
-    public boolean EstaVencida(){
+    public boolean EstaVencida() {
         return LocalDate.now().isAfter(FechaFin);
     }
 
-    public void Renovar(){
+    public void Renovar() {
         this.FechaInicio = LocalDate.now();
         this.FechaFin = FechaInicio.plusMonths(1);
         this.activa = true;
     }
 
-    public long DiasRestantes(){
+    public long DiasRestantes() {
         return java.time.temporal.ChronoUnit.DAYS.between(LocalDate.now(), FechaFin);
     }
 }

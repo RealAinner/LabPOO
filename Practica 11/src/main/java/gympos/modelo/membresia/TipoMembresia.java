@@ -10,7 +10,7 @@ public enum TipoMembresia {
     private final double precio;
     private final int descuento;
 
-    TipoMembresia(String nombre, double precio, int descuento){
+    TipoMembresia(String nombre, double precio, int descuento) {
         this.nombre = nombre;
         this.precio = precio;
         this.descuento = descuento;

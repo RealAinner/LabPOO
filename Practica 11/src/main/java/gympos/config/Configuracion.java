@@ -23,7 +23,7 @@ public class Configuracion {
         return instancia;
     }
 
-    private void Cargar(){
+    private void Cargar() {
         try(InputStream in = new FileInputStream(ARCHIVO)){
             props.load(in);
         }catch(IOException e){
@@ -39,9 +39,9 @@ public class Configuracion {
         }
     }
 
-    public String Get(String clave) { return props.getProperty(clave, "");}
-    public void Set(String clave, String valor) { props.setProperty(clave, valor);}
-    public int GetInt(String clave){
+    public String Get(String clave) { return props.getProperty(clave, ""); }
+    public void Set(String clave, String valor) { props.setProperty(clave, valor); }
+    public int GetInt(String clave) {
         try{ return Integer.parseInt(Get(clave)); }
         catch(NumberFormatException e) { return 0; }
     }
