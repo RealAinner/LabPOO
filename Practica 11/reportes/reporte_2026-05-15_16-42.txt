@@ -1,0 +1,74 @@
+========================================
+  REPORTE GYMPOS - 2026-05-15T16:42:24.450901800
+========================================
+
+---CLIENTES (20)---
+  [1] Carlos Herrera | carlos.herrera@mail.com | Puntos: 15
+  [2] Ana Martinez | ana.martinez@mail.com | Puntos: 30
+  [3] Luis Gonzalez | luis.gonzalez@mail.com | Puntos: 45
+  [4] Maria Lopez | maria.lopez@mail.com | Puntos: 60
+  [5] Pedro Ramirez | pedro.ramirez@mail.com | Puntos: 75
+  [6] Sofia Torres | sofia.torres@mail.com | Puntos: 90
+  [7] Diego Flores | diego.flores@mail.com | Puntos: 105
+  [8] Laura Morales | laura.morales@mail.com | Puntos: 120
+  [9] Jorge Castillo | jorge.castillo@mail.com | Puntos: 135
+  [10] Valeria Reyes | valeria.reyes@mail.com | Puntos: 150
+  [11] Miguel Vargas | miguel.vargas@mail.com | Puntos: 165
+  [12] Paola Jimenez | paola.jimenez@mail.com | Puntos: 180
+  [13] Ricardo Cruz | ricardo.cruz@mail.com | Puntos: 195
+  [14] Fernanda Medina | fernanda.medina@mail.com | Puntos: 210
+  [15] Hector Gutierrez | hector.gutierrez@mail.com | Puntos: 225
+  [16] Monica Diaz | monica.diaz@mail.com | Puntos: 240
+  [17] Roberto Soto | roberto.soto@mail.com | Puntos: 255
+  [18] Claudia Mendoza | claudia.mendoza@mail.com | Puntos: 270
+  [19] Andres Ramos | andres.ramos@mail.com | Puntos: 285
+  [20] Patricia Ibarra | patricia.ibarra@mail.com | Puntos: 300
+
+---MEMBRESIAS (21)---
+  [1] Cliente 1 | Estandar | Vence: 2026-06-15 | Activa
+  [2] Cliente 2 | Premium | Vence: 2026-06-15 | Activa
+  [3] Cliente 3 | VIP | Vence: 2026-06-15 | Activa
+  [4] Cliente 4 | Basico | Vence: 2026-06-15 | Activa
+  [5] Cliente 5 | Estandar | Vence: 2026-06-15 | Activa
+  [6] Cliente 6 | Premium | Vence: 2026-06-15 | Activa
+  [7] Cliente 7 | VIP | Vence: 2026-06-15 | Activa
+  [8] Cliente 8 | Basico | Vence: 2026-06-15 | Activa
+  [9] Cliente 9 | Estandar | Vence: 2026-06-15 | Activa
+  [10] Cliente 10 | Premium | Vence: 2026-06-15 | Activa
+  [11] Cliente 11 | VIP | Vence: 2026-06-15 | Activa
+  [12] Cliente 12 | Basico | Vence: 2026-06-15 | Activa
+  [13] Cliente 13 | Estandar | Vence: 2026-06-15 | Activa
+  [14] Cliente 14 | Premium | Vence: 2026-06-15 | Activa
+  [15] Cliente 15 | VIP | Vence: 2026-06-15 | Activa
+  [16] Cliente 16 | Basico | Vence: 2026-06-15 | Activa
+  [17] Cliente 17 | Estandar | Vence: 2026-06-15 | Activa
+  [18] Cliente 18 | Premium | Vence: 2026-06-15 | Activa
+  [19] Cliente 19 | VIP | Vence: 2026-06-15 | Activa
+  [20] Cliente 20 | Basico | Vence: 2026-06-15 | Activa
+  [21] Cliente 16 | Basico | Vence: 2026-06-15 | Activa
+
+---PAGOS (21)---
+  [1] Cliente 1 | $349.00 | TARJETA | COMPLETADO
+  [2] Cliente 2 | $399.00 | TRANSFERENCIA | COMPLETADO
+  [3] Cliente 3 | $449.00 | EFECTIVO | COMPLETADO
+  [4] Cliente 4 | $499.00 | TARJETA | COMPLETADO
+  [5] Cliente 5 | $549.00 | TRANSFERENCIA | COMPLETADO
+  [6] Cliente 6 | $599.00 | EFECTIVO | COMPLETADO
+  [7] Cliente 7 | $649.00 | TARJETA | COMPLETADO
+  [8] Cliente 8 | $699.00 | TRANSFERENCIA | COMPLETADO
+  [9] Cliente 9 | $749.00 | EFECTIVO | COMPLETADO
+  [10] Cliente 10 | $799.00 | TARJETA | COMPLETADO
+  [11] Cliente 11 | $849.00 | TRANSFERENCIA | COMPLETADO
+  [12] Cliente 12 | $899.00 | EFECTIVO | COMPLETADO
+  [13] Cliente 13 | $949.00 | TARJETA | COMPLETADO
+  [14] Cliente 14 | $999.00 | TRANSFERENCIA | COMPLETADO
+  [15] Cliente 15 | $1049.00 | EFECTIVO | COMPLETADO
+  [16] Cliente 16 | $1099.00 | TARJETA | COMPLETADO
+  [17] Cliente 17 | $1149.00 | TRANSFERENCIA | COMPLETADO
+  [18] Cliente 18 | $1199.00 | EFECTIVO | COMPLETADO
+  [19] Cliente 19 | $1249.00 | TARJETA | COMPLETADO
+  [20] Cliente 20 | $1299.00 | TRANSFERENCIA | COMPLETADO
+  [21] Cliente 16 | $299.00 | TARJETA | COMPLETADO
+
+  Total recaudado: $16779.00
+========================================

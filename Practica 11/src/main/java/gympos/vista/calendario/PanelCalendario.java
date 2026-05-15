@@ -34,7 +34,7 @@ public class PanelCalendario extends VBox {
     private Label etiquetaEstado;
     private static final DateTimeFormatter FMT = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
 
-    public PanelCalendario(ServicioClase servicio){
+    public PanelCalendario(ServicioClase servicio) {
         this.servicio = servicio;
         setSpacing(10);
         setPadding(new Insets(15));
@@ -45,17 +45,18 @@ public class PanelCalendario extends VBox {
         campoBusqueda.setPromptText("Filtrar por nombre o instructor...");
         campoBusqueda.getStyleClass().add("campo-busqueda");
         tabla = CrearTabla();
-        getChildren().addAll(CrearTitulo(), CrearBarraBusqueda(), tabla, CrearFormularioClase(), CrearFormularioInscripcion(), etiquetaEstado);
+        getChildren().addAll(CrearTitulo(), CrearBarraBusqueda(), tabla,
+                CrearFormularioClase(), CrearFormularioInscripcion(), etiquetaEstado);
         Refrescar();
     }
 
-    private Label CrearTitulo(){
+    private Label CrearTitulo() {
         Label l = new Label("Calendario de Clases Grupales");
         l.setStyle("-fx-font-size:18px; -fx-font-weight:bold; -fx-text-fill:#f0a500;");
         return l;
     }
 
-    private HBox CrearBarraBusqueda(){
+    private HBox CrearBarraBusqueda() {
         HBox.setHgrow(campoBusqueda, Priority.ALWAYS);
         HBox caja = new HBox(8, new Label("Buscar:"), campoBusqueda);
         caja.setAlignment(Pos.CENTER_LEFT);
@@ -63,7 +64,7 @@ public class PanelCalendario extends VBox {
     }
 
     @SuppressWarnings("unchecked")
-    private TableView<ClaseGrupal> CrearTabla(){
+    private TableView<ClaseGrupal> CrearTabla() {
         TableView<ClaseGrupal> t = new TableView<>();
         t.getStyleClass().add("tabla-principal");
         t.setPrefHeight(220);
@@ -85,12 +86,13 @@ public class PanelCalendario extends VBox {
         colFecha.setPrefWidth(140);
 
         TableColumn<ClaseGrupal, String> colLugares = new TableColumn<>("Inscritos/Cap.");
-        colLugares.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().GetInscritos().size() + "/" + c.getValue().GetCapacidad()));
+        colLugares.setCellValueFactory(c -> new SimpleStringProperty(
+                c.getValue().GetInscritos().size() + "/" + c.getValue().GetCapacidad()));
         colLugares.setPrefWidth(110);
 
         t.getColumns().addAll(colId, colNombre, colInstructor, colFecha, colLugares);
         t.setOnMouseClicked(e -> {
-            if(e.getClickCount() == 2){
+            if (e.getClickCount() == 2) {
                 ClaseGrupal sel = t.getSelectionModel().getSelectedItem();
                 if (sel != null && campoIdClase != null)
                     campoIdClase.setText(String.valueOf(sel.GetId()));
@@ -99,7 +101,7 @@ public class PanelCalendario extends VBox {
         return t;
     }
 
-    private GridPane CrearFormularioClase(){
+    private GridPane CrearFormularioClase() {
         campoNombre = new TextField(); campoNombre.setPromptText("Nombre clase"); campoNombre.setPrefWidth(140);
         campoInstructor = new TextField(); campoInstructor.setPromptText("Instructor"); campoInstructor.setPrefWidth(140);
         campoFecha = new TextField(); campoFecha.setPromptText("yyyy-MM-ddTHH:mm"); campoFecha.setPrefWidth(160);
@@ -119,41 +121,43 @@ public class PanelCalendario extends VBox {
         return grid;
     }
 
-    private HBox CrearFormularioInscripcion(){
+    private HBox CrearFormularioInscripcion() {
         campoIdClase = new TextField(); campoIdClase.setPromptText("ID Clase"); campoIdClase.setPrefWidth(80);
         campoIdCliente = new TextField(); campoIdCliente.setPromptText("ID Cliente"); campoIdCliente.setPrefWidth(80);
         BotonIcono btnInscribir = new BotonIcono(BotonIcono.TipoBoton.GUARDAR);
         btnInscribir.setText("Inscribir");
         btnInscribir.setOnAction(e -> Inscribir());
-        HBox caja = new HBox(10, new Label("ID Clase:"), campoIdClase, new Label("ID Cliente:"), campoIdCliente, btnInscribir);
+        HBox caja = new HBox(10, new Label("ID Clase:"), campoIdClase,
+                new Label("ID Cliente:"), campoIdCliente, btnInscribir);
         caja.setAlignment(Pos.CENTER_LEFT);
         caja.setPadding(new Insets(5, 10, 5, 10));
         caja.getStyleClass().add("formulario");
         return caja;
     }
 
-    private void AgregarClase(){
-        try{
+    private void AgregarClase() {
+        try {
             int cap = Integer.parseInt(campoCapacidad.getText().trim());
             LocalDateTime fecha = LocalDateTime.parse(campoFecha.getText().trim());
             servicio.Agregar(campoNombre.getText(), campoInstructor.getText(), fecha, cap);
             MostrarExito("Clase agregada.");
             Refrescar();
-        }catch(Exception e) {MostrarError("Datos invalidos. Fecha: 2026-06-01T09:00");}
+        } catch (Exception e) { MostrarError("Datos invalidos. Fecha: 2026-06-01T09:00"); }
     }
 
-    private void Inscribir(){
-        try{
-            servicio.Inscribir(Integer.parseInt(campoIdClase.getText().trim()), Integer.parseInt(campoIdCliente.getText().trim()));
+    private void Inscribir() {
+        try {
+            servicio.Inscribir(Integer.parseInt(campoIdClase.getText().trim()),
+                               Integer.parseInt(campoIdCliente.getText().trim()));
             MostrarExito("Inscripcion exitosa.");
             Refrescar();
-        }catch(NumberFormatException e) {MostrarError("IDs invalidos.");
-        }catch(GymPOSException e) {MostrarError(e.getMessage());}
+        } catch (NumberFormatException e) { MostrarError("IDs invalidos.");
+        } catch (GymPOSException e) { MostrarError(e.getMessage()); }
     }
 
-    private void Refrescar(){
-        datos = FXCollections.observableArrayList(servicio.GetTodas());
-        if(filtrados == null){
+    private void Refrescar() {
+        if (datos == null) {
+            datos = FXCollections.observableArrayList(servicio.GetTodas());
             filtrados = new FilteredList<>(datos, p -> true);
             campoBusqueda.textProperty().addListener((obs, v, nuevo) ->
                 filtrados.setPredicate(cl -> nuevo == null || nuevo.isBlank()
@@ -163,17 +167,17 @@ public class PanelCalendario extends VBox {
             SortedList<ClaseGrupal> ordenados = new SortedList<>(filtrados);
             ordenados.comparatorProperty().bind(tabla.comparatorProperty());
             tabla.setItems(ordenados);
-        }else{
-            filtrados.setAll(datos);
+        } else {
+            datos.setAll(servicio.GetTodas());
         }
     }
 
-    private void MostrarError(String msg){
+    private void MostrarError(String msg) {
         etiquetaEstado.setText(msg);
         etiquetaEstado.getStyleClass().removeAll("estado-exito");
         etiquetaEstado.getStyleClass().add("estado-error");
     }
-    private void MostrarExito(String msg){
+    private void MostrarExito(String msg) {
         etiquetaEstado.setText(msg);
         etiquetaEstado.getStyleClass().removeAll("estado-error");
         etiquetaEstado.getStyleClass().add("estado-exito");

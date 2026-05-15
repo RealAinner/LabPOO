@@ -30,7 +30,7 @@ public class PanelInventario extends VBox {
     private ComboBox<EstadoEquipo> comboEstado;
     private Label etiquetaEstado;
 
-    public PanelInventario(ServicioEquipo servicio){
+    public PanelInventario(ServicioEquipo servicio) {
         this.servicio = servicio;
         setSpacing(10);
         setPadding(new Insets(15));
@@ -41,17 +41,18 @@ public class PanelInventario extends VBox {
         campoBusqueda.setPromptText("Filtrar por nombre o categoria...");
         campoBusqueda.getStyleClass().add("campo-busqueda");
         tabla = CrearTabla();
-        getChildren().addAll(CrearTitulo(), CrearBarraBusqueda(), tabla, CrearFormulario(), etiquetaEstado);
+        getChildren().addAll(CrearTitulo(), CrearBarraBusqueda(), tabla,
+                CrearFormulario(), etiquetaEstado);
         Refrescar();
     }
 
-    private Label CrearTitulo(){
+    private Label CrearTitulo() {
         Label l = new Label("Inventario de Equipos");
         l.setStyle("-fx-font-size:18px; -fx-font-weight:bold; -fx-text-fill:#f0a500;");
         return l;
     }
 
-    private HBox CrearBarraBusqueda(){
+    private HBox CrearBarraBusqueda() {
         HBox.setHgrow(campoBusqueda, Priority.ALWAYS);
         HBox caja = new HBox(8, new Label("Buscar:"), campoBusqueda);
         caja.setAlignment(Pos.CENTER_LEFT);
@@ -87,9 +88,9 @@ public class PanelInventario extends VBox {
         t.getColumns().addAll(colId, colNombre, colCategoria, colCantidad, colEstado);
 
         t.setOnMouseClicked(e -> {
-            if(e.getClickCount() == 2){
+            if (e.getClickCount() == 2) {
                 Equipo sel = t.getSelectionModel().getSelectedItem();
-                if(sel != null){
+                if (sel != null) {
                     campoNombre.setText(sel.GetNombre());
                     campoCategoria.setText(sel.GetCategoria());
                     campoCantidad.setText(String.valueOf(sel.GetCantidad()));
@@ -99,11 +100,11 @@ public class PanelInventario extends VBox {
         });
 
         t.setOnKeyPressed(e -> {
-            if(e.getCode() == KeyCode.DELETE){
+            if (e.getCode() == KeyCode.DELETE) {
                 Equipo sel = t.getSelectionModel().getSelectedItem();
-                if(sel != null){
-                    try{servicio.Eliminar(sel.GetId()); Refrescar();}
-                    catch(GymPOSException ex) {MostrarError(ex.getMessage());}
+                if (sel != null) {
+                    try { servicio.Eliminar(sel.GetId()); Refrescar(); }
+                    catch (GymPOSException ex) { MostrarError(ex.getMessage()); }
                 }
             }
         });
@@ -111,7 +112,7 @@ public class PanelInventario extends VBox {
         return t;
     }
 
-    private GridPane CrearFormulario(){
+    private GridPane CrearFormulario() {
         campoNombre = new TextField(); campoNombre.setPromptText("Nombre equipo"); campoNombre.setPrefWidth(160);
         campoCategoria = new TextField(); campoCategoria.setPromptText("Categoria"); campoCategoria.setPrefWidth(120);
         campoCantidad = new TextField(); campoCantidad.setPromptText("Cantidad"); campoCantidad.setPrefWidth(80);
@@ -132,20 +133,20 @@ public class PanelInventario extends VBox {
         return grid;
     }
 
-    private void AgregarEquipo(){
-        try{
+    private void AgregarEquipo() {
+        try {
             int cantidad = Integer.parseInt(campoCantidad.getText().trim());
             servicio.Agregar(campoNombre.getText(), campoCategoria.getText(), cantidad);
             MostrarExito("Equipo agregado.");
             Refrescar();
             campoNombre.clear(); campoCategoria.clear(); campoCantidad.clear();
-        }catch(NumberFormatException e) {MostrarError("Cantidad invalida.");
-        }catch(GymPOSException e) {MostrarError(e.getMessage());}
+        } catch (NumberFormatException e) { MostrarError("Cantidad invalida.");
+        } catch (GymPOSException e) { MostrarError(e.getMessage()); }
     }
 
-    private void Refrescar(){
-        datos = FXCollections.observableArrayList(servicio.GetTodos());
-        if(filtrados == null){
+    private void Refrescar() {
+        if (datos == null) {
+            datos = FXCollections.observableArrayList(servicio.GetTodos());
             filtrados = new FilteredList<>(datos, p -> true);
             campoBusqueda.textProperty().addListener((obs, v, nuevo) ->
                 filtrados.setPredicate(eq -> nuevo == null || nuevo.isBlank()
@@ -155,17 +156,17 @@ public class PanelInventario extends VBox {
             SortedList<Equipo> ordenados = new SortedList<>(filtrados);
             ordenados.comparatorProperty().bind(tabla.comparatorProperty());
             tabla.setItems(ordenados);
-        }else{
-            filtrados.setAll(datos);
+        } else {
+            datos.setAll(servicio.GetTodos());
         }
     }
 
-    private void MostrarError(String msg){
+    private void MostrarError(String msg) {
         etiquetaEstado.setText(msg);
         etiquetaEstado.getStyleClass().removeAll("estado-exito");
         etiquetaEstado.getStyleClass().add("estado-error");
     }
-    private void MostrarExito(String msg){
+    private void MostrarExito(String msg) {
         etiquetaEstado.setText(msg);
         etiquetaEstado.getStyleClass().removeAll("estado-error");
         etiquetaEstado.getStyleClass().add("estado-exito");

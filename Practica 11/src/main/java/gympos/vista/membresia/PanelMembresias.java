@@ -35,7 +35,7 @@ public class PanelMembresias extends VBox implements VistaMembresia {
     private ComboBox<TipoMembresia> comboTipo;
     private Label etiquetaEstado;
 
-    public PanelMembresias(MembresiaController controlador, ServicioPago servicioPago, Stage stage){
+    public PanelMembresias(MembresiaController controlador, ServicioPago servicioPago, Stage stage) {
         this.controlador = controlador;
         this.servicioPago = servicioPago;
         this.stage = stage;
@@ -44,12 +44,18 @@ public class PanelMembresias extends VBox implements VistaMembresia {
         setPadding(new Insets(15));
         getStyleClass().add("panel");
 
-        getChildren().addAll(CrearBarraBusqueda(), CrearTabla(), CrearFormulario(), CrearEtiquetaEstado());
+        getChildren().addAll(
+            CrearBarraBusqueda(),
+            CrearTabla(),
+            CrearFormulario(),
+            CrearEtiquetaEstado()
+        );
+
         Refrescar(controlador.CargarTodas());
         VerificarNotificaciones();
     }
 
-    private HBox CrearBarraBusqueda(){
+    private HBox CrearBarraBusqueda() {
         campoBusqueda = new TextField();
         campoBusqueda.setPromptText("Buscar por ID de cliente o tipo...");
         campoBusqueda.getStyleClass().add("campo-busqueda");
@@ -60,7 +66,7 @@ public class PanelMembresias extends VBox implements VistaMembresia {
     }
 
     @SuppressWarnings("unchecked")
-    private TableView<Membresia> CrearTabla(){
+    private TableView<Membresia> CrearTabla() {
         tabla = new TableView<>();
         tabla.getStyleClass().add("tabla-principal");
         tabla.setPrefHeight(260);
@@ -78,7 +84,8 @@ public class PanelMembresias extends VBox implements VistaMembresia {
         colTipo.setPrefWidth(100);
 
         TableColumn<Membresia, String> colPrecio = new TableColumn<>("Precio");
-        colPrecio.setCellValueFactory(c -> new SimpleStringProperty(String.format("$%.2f", c.getValue().GetTipo().GetPrecioFinal())));
+        colPrecio.setCellValueFactory(c -> new SimpleStringProperty(
+            String.format("$%.2f", c.getValue().GetTipo().GetPrecioFinal())));
         colPrecio.setPrefWidth(90);
 
         TableColumn<Membresia, String> colFin = new TableColumn<>("Vence");
@@ -86,18 +93,20 @@ public class PanelMembresias extends VBox implements VistaMembresia {
         colFin.setPrefWidth(110);
 
         TableColumn<Membresia, String> colEstado = new TableColumn<>("Estado");
-        colEstado.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().EstaVencida() ? "Vencida" : (c.getValue().IsActiva() ? "Activa" : "Cancelada")));
+        colEstado.setCellValueFactory(c -> new SimpleStringProperty(
+            c.getValue().EstaVencida() ? "Vencida" : (c.getValue().IsActiva() ? "Activa" : "Cancelada")));
         colEstado.setPrefWidth(90);
 
         TableColumn<Membresia, String> colDias = new TableColumn<>("Dias rest.");
-        colDias.setCellValueFactory(c -> new SimpleStringProperty(String.valueOf(c.getValue().DiasRestantes())));
+        colDias.setCellValueFactory(c -> new SimpleStringProperty(
+            String.valueOf(c.getValue().DiasRestantes())));
         colDias.setPrefWidth(80);
 
         tabla.getColumns().addAll(colId, colCliente, colTipo, colPrecio, colFin, colEstado, colDias);
         return tabla;
     }
 
-    private GridPane CrearFormulario(){
+    private GridPane CrearFormulario() {
         campoIdCliente = new TextField();
         campoIdCliente.setPromptText("ID Cliente");
         campoIdCliente.setPrefWidth(120);
@@ -129,58 +138,59 @@ public class PanelMembresias extends VBox implements VistaMembresia {
         return grid;
     }
 
-    private Label CrearEtiquetaEstado(){
+    private Label CrearEtiquetaEstado() {
         etiquetaEstado = new Label("");
         etiquetaEstado.getStyleClass().add("etiqueta-estado");
         return etiquetaEstado;
     }
 
-    private void RegistrarMembresia(){
-        try{
+    private void RegistrarMembresia() {
+        try {
             controlador.Registrar(Integer.parseInt(campoIdCliente.getText().trim()), comboTipo.getValue());
-        }catch(NumberFormatException e) {MostrarError("ID de cliente invalido.");}
+        } catch (NumberFormatException e) { MostrarError("ID de cliente invalido."); }
     }
 
-    private void RenovarMembresia(){
-        try{
+    private void RenovarMembresia() {
+        try {
             controlador.Renovar(Integer.parseInt(campoIdCliente.getText().trim()));
-        }catch(NumberFormatException e) {MostrarError("ID de cliente invalido.");}
+        } catch (NumberFormatException e) { MostrarError("ID de cliente invalido."); }
     }
 
-    private void CancelarMembresia(){
-        try{
+    private void CancelarMembresia() {
+        try {
             controlador.Cancelar(Integer.parseInt(campoIdCliente.getText().trim()));
-        }catch(NumberFormatException e) {MostrarError("ID de cliente invalido.");}
+        } catch (NumberFormatException e) { MostrarError("ID de cliente invalido."); }
     }
 
-    private void AbrirDialogoPago(){
-        try{
+    private void AbrirDialogoPago() {
+        try {
             int id = Integer.parseInt(campoIdCliente.getText().trim());
             new DialogoPago(stage, servicioPago, id, id, comboTipo.getValue().GetPrecioFinal()).Mostrar();
         } catch (NumberFormatException e) { MostrarError("ID de cliente invalido."); }
     }
 
-    private void VerificarNotificaciones(){
+    private void VerificarNotificaciones() {
         List<Membresia> proximas = controlador.GetProximasVencer();
-        if(!proximas.isEmpty()){
+        if (!proximas.isEmpty()) {
             Alert alerta = new Alert(Alert.AlertType.WARNING);
             alerta.setTitle("Membresias por vencer");
             alerta.setHeaderText(proximas.size() + " membresia(s) vencen pronto");
             StringBuilder sb = new StringBuilder();
-            proximas.forEach(m -> sb.append("Cliente ").append(m.GetIdCliente()).append(" - ").append(m.DiasRestantes()).append(" dias\n"));
+            proximas.forEach(m -> sb.append("Cliente ").append(m.GetIdCliente())
+                    .append(" - ").append(m.DiasRestantes()).append(" dias\n"));
             alerta.setContentText(sb.toString());
             alerta.show();
         }
     }
 
     @Override
-    public void Refrescar(List<Membresia> membresias){
-        datos = FXCollections.observableArrayList(membresias);
-        if(filtrados == null){
+    public void Refrescar(List<Membresia> membresias) {
+        if (datos == null) {
+            datos = FXCollections.observableArrayList(membresias);
             filtrados = new FilteredList<>(datos, p -> true);
             campoBusqueda.textProperty().addListener((obs, viejo, nuevo) ->
                 filtrados.setPredicate(m -> {
-                    if(nuevo == null || nuevo.isBlank()) return true;
+                    if (nuevo == null || nuevo.isBlank()) return true;
                     String f = nuevo.toLowerCase();
                     return String.valueOf(m.GetIdCliente()).contains(f)
                         || m.GetTipo().GetNombre().toLowerCase().contains(f);
@@ -189,20 +199,20 @@ public class PanelMembresias extends VBox implements VistaMembresia {
             SortedList<Membresia> ordenados = new SortedList<>(filtrados);
             ordenados.comparatorProperty().bind(tabla.comparatorProperty());
             tabla.setItems(ordenados);
-        }else{
-            filtrados.setAll(datos);
+        } else {
+            datos.setAll(membresias);
         }
     }
 
     @Override
-    public void MostrarError(String mensaje){
+    public void MostrarError(String mensaje) {
         etiquetaEstado.setText(mensaje);
         etiquetaEstado.getStyleClass().removeAll("estado-exito");
         etiquetaEstado.getStyleClass().add("estado-error");
     }
 
     @Override
-    public void MostrarExito(String mensaje){
+    public void MostrarExito(String mensaje) {
         etiquetaEstado.setText(mensaje);
         etiquetaEstado.getStyleClass().removeAll("estado-error");
         etiquetaEstado.getStyleClass().add("estado-exito");

@@ -46,7 +46,8 @@ public class PanelAcceso extends VBox {
         campoId.setPromptText("ID Cliente");
         campoId.setPrefWidth(120);
         tabla = CrearTabla();
-        getChildren().addAll(CrearEncabezado(), CrearBarraBusqueda(), tabla, CrearFormulario(), etiquetaEstado);
+        getChildren().addAll(CrearEncabezado(), CrearBarraBusqueda(), tabla,
+                CrearFormulario(), etiquetaEstado);
         Refrescar();
     }
 
@@ -138,8 +139,8 @@ public class PanelAcceso extends VBox {
     }
 
     private void Refrescar(){
-        datos = FXCollections.observableArrayList(servicio.GetTodos());
-        if(filtrados == null){
+        if(datos == null){
+            datos = FXCollections.observableArrayList(servicio.GetTodos());
             filtrados = new FilteredList<>(datos, p -> true);
             campoBusqueda.textProperty().addListener((obs, v, nuevo) ->
                 filtrados.setPredicate(r -> nuevo == null || nuevo.isBlank()
@@ -149,7 +150,7 @@ public class PanelAcceso extends VBox {
             ordenados.comparatorProperty().bind(tabla.comparatorProperty());
             tabla.setItems(ordenados);
         }else{
-            filtrados.setAll(datos);
+            datos.setAll(servicio.GetTodos());
         }
         etiquetaAforo.setText("Aforo: " + servicio.GetAforo() + " personas");
     }

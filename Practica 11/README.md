@@ -6,8 +6,87 @@ Nombre del gimnasio configurado: **IronPeak Gym** (modificable en `gympos.proper
 
 ---
 
+## Requisitos para ejecutar GymPOS
+
+### 1. Instalar Java 21
+
+Descarga e instala Java 21 desde:
+https://adoptium.net
+
+Verifica que este instalado correctamente abriendo una terminal y ejecutando:
+```
+java -version
+```
+Debe aparecer algo como: `openjdk version "21.x.x"`
+
+---
+
+### 2. Descargar JavaFX SDK 21
+
+1. Ve a https://openjfx.io
+2. En la seccion de descargas selecciona:
+   - Version: **21**
+   - Sistema operativo: **Windows**
+   - Arquitectura: **x64**
+   - Tipo: **SDK**
+3. Descarga y extrae el ZIP en cualquier carpeta de tu computadora
+
+---
+
+### 3. Preparar la carpeta lib
+
+Una vez extraido el SDK de JavaFX:
+
+1. Abre la carpeta del SDK, por ejemplo:
+   ```
+   javafx-sdk-21.0.11\
+   ```
+2. Copia **todos los archivos** de la carpeta `lib\` (archivos `.jar`)
+3. Copia **todos los archivos** de la carpeta `bin\` (archivos `.dll`)
+4. Pega todos esos archivos dentro de la carpeta `lib\` del proyecto
+
+La carpeta `lib\` del proyecto debe quedar asi:
+```
+lib/
+  javafx.base.jar
+  javafx.controls.jar
+  javafx.graphics.jar
+  javafx.fxml.jar
+  prism_d3d.dll
+  prism_sw.dll
+  glass.dll
+  javafx_font.dll
+  ... (demas archivos)
+```
+
+---
+
+### 4. Ejecutar el programa
+
+Opcion A — Doble clic (recomendado)
+Haz doble clic en el archivo `ejecutar.bat`
+
+Opcion B — Desde terminal
+Abre una terminal en la carpeta del proyecto y ejecuta:
+
+java --module-path "lib" --add-modules javafx.controls,javafx.fxml -Djava.library.path="lib" -jar GymPOS.jar
+
+---
+
+## Problemas comunes
+
+| Error | Solucion |
+|-------|----------|
+| `java -version` no funciona | Java no esta instalado o no esta en el PATH |
+| `JavaFX runtime components are missing` | Los `.jar` de JavaFX no estan en la carpeta `lib\` |
+| `Graphics Device initialization failed` | Los `.dll` de JavaFX no estan en la carpeta `lib\` |
+| `Module javafx.controls not found` | La carpeta `lib\` esta vacia o mal colocada |
+
+---
+
 ## Estructura de Packages
 
+```
 gympos/
   Main.java                       Punto de entrada JavaFX (desde aqui se ejecuta)
   config/
@@ -60,6 +139,7 @@ gympos/
     Serializador.java             Persistencia con ObjectStream
     Validador.java                Reglas de validacion
     DatosIniciales.java           Seed data 20+ registros
+```
 
 **Total: 27 clases** organizadas en 10 packages.
 
@@ -71,8 +151,8 @@ gympos/
 
 En cada panel con tabla, el filtrado funciona asi:
 
+```
 java
-
 //1.Lista observable con todos los datos
 ObservableList<Cliente> datos = FXCollections.observableArrayList(clientes);
 
@@ -102,35 +182,6 @@ El criterio de filtrado en cada modulo:
 - **Acceso**: ID de cliente
 - **Inventario**: nombre o categoria del equipo
 - **Clases**: nombre de clase o instructor
-
----
-
-## Compilacion y Ejecucion
-
-### Requisitos
-- Java 17+
-- JavaFX SDK 17+ (descarga en https://openjfx.io)
-- Apache Ant (para build.xml)
-
-### Con Ant
-bash
-# Edita build.xml y ajusta la ruta javafx.lib
-ant jar
-java --module-path ~/javafx-sdk/lib --add-modules javafx.controls,javafx.fxml -jar dist/GymPOS.jar
-
-
-### Sin Ant (compilacion manual)
-bash
-# Compilar
-javac --module-path /ruta/javafx/lib --add-modules javafx.controls \
-      -d build/classes $(find src -name "*.java")
-
-# Copiar recursos
-cp -r src/main/resources/* build/classes/
-
-# Ejecutar
-java --module-path /ruta/javafx/lib --add-modules javafx.controls \
-     -cp build/classes gympos.App
 
 ---
 
@@ -186,7 +237,7 @@ Ambos usan Platform.runLater() para actualizar la interfaz desde el hilo secunda
 
 ## Manejo de Excepciones
 
-| Excepcion                      | Cuando se lanza                              |
+| Excepcion                     | Cuando se lanza                              |
 |-------------------------------|----------------------------------------------|
 | GymPOSException               | Base de todas las excepciones del dominio    |
 | ClienteNoEncontradoException  | ID de cliente no existe                      |
