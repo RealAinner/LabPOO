@@ -1,0 +1,19 @@
+# Compilados
+build/
+*.class
+
+# JAR generado
+GymPOS.jar
+
+# Librerias JavaFX
+lib/
+
+# Datos serializados
+datos/
+
+# Reportes generados
+reportes/
+
+# Archivos temporales
+sources.txt
+*.tmp
