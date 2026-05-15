@@ -4,7 +4,6 @@ import gympos.modelo.pago.Pago.MetodoPago;
 import gympos.servicio.ServicioPago;
 import gympos.vista.componente.BotonIcono;
 
-import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -24,8 +23,7 @@ public class DialogoPago {
     private Label etiquetaEstado;
     private ProgressIndicator indicador;
 
-    public DialogoPago(Stage padre, ServicioPago servicioPago,
-                       int IdCliente, int IdMembresia, double monto) {
+    public DialogoPago(Stage padre, ServicioPago servicioPago, int IdCliente, int IdMembresia, double monto){
         this.servicioPago = servicioPago;
         this.IdCliente = IdCliente;
         this.IdMembresia = IdMembresia;
@@ -39,7 +37,7 @@ public class DialogoPago {
         dialogo.setScene(CrearEscena());
     }
 
-    private Scene CrearEscena() {
+    private Scene CrearEscena(){
         Label lblMonto = new Label(String.format("Monto a cobrar: $%.2f", monto));
         lblMonto.getStyleClass().add("titulo-bienvenida");
         lblMonto.setStyle("-fx-font-size:20px;");
@@ -101,5 +99,5 @@ public class DialogoPago {
         return escena;
     }
 
-    public void Mostrar() { dialogo.showAndWait(); }
+    public void Mostrar() {dialogo.showAndWait();}
 }

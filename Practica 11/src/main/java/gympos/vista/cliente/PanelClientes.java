@@ -25,7 +25,7 @@ public class PanelClientes extends VBox implements VistaCliente {
 
     private TableView<Cliente> tabla;
     private ObservableList<Cliente> datos;
-    private FilteredList<Cliente> DatosFiltrados;
+    private FilteredList<Cliente> filtrados;
 
     private CampoValidado campoNombre;
     private CampoValidado campoApellido;
@@ -36,7 +36,7 @@ public class PanelClientes extends VBox implements VistaCliente {
     private Label etiquetaEstado;
     private int IdEditando = -1;
 
-    public PanelClientes(ClienteController controlador) {
+    public PanelClientes(ClienteController controlador){
         this.controlador = controlador;
         controlador.SetVista(this);
         setSpacing(10);
@@ -53,7 +53,7 @@ public class PanelClientes extends VBox implements VistaCliente {
         Refrescar(controlador.CargarTodos());
     }
 
-    private HBox CrearBarraBusqueda() {
+    private HBox CrearBarraBusqueda(){
         campoBusqueda = new TextField();
         campoBusqueda.setPromptText("Buscar por nombre, apellido o correo...");
         campoBusqueda.getStyleClass().add("campo-busqueda");
@@ -65,7 +65,7 @@ public class PanelClientes extends VBox implements VistaCliente {
     }
 
     @SuppressWarnings("unchecked")
-    private TableView<Cliente> CrearTabla() {
+    private TableView<Cliente> CrearTabla(){
         tabla = new TableView<>();
         tabla.getStyleClass().add("tabla-principal");
         tabla.setPrefHeight(280);
@@ -91,35 +91,23 @@ public class PanelClientes extends VBox implements VistaCliente {
         colPuntos.setPrefWidth(80);
 
         tabla.getColumns().addAll(colId, colNombre, colCorreo, colTelefono, colPuntos);
-
-        tabla.setOnMouseClicked(e -> {
-            if (e.getClickCount() == 2) CargarEnFormulario();
-        });
-
-        tabla.setOnKeyPressed(e -> {
-            if (e.getCode() == KeyCode.DELETE) ConfirmarEliminar();
-            if (e.getCode() == KeyCode.ENTER) CargarEnFormulario();
-        });
+        tabla.setOnMouseClicked(e -> {if (e.getClickCount() == 2) CargarEnFormulario();});
+        tabla.setOnKeyPressed(e -> {if (e.getCode() == KeyCode.DELETE) ConfirmarEliminar(); if (e.getCode() == KeyCode.ENTER) CargarEnFormulario();});
 
         return tabla;
     }
 
-    private GridPane CrearFormulario() {
-        campoNombre = new CampoValidado("Nombre", "Minimo 2 caracteres",
-                s -> Validador.EsTextoValido(s, 2, 50));
-        campoApellido = new CampoValidado("Apellido", "Minimo 2 caracteres",
-                s -> Validador.EsTextoValido(s, 2, 50));
-        campoCorreo = new CampoValidado("correo@ejemplo.com", "Formato invalido",
-                Validador::EsCorreoValido);
-        campoTelefono = new CampoValidado("10 digitos", "Exactamente 10 digitos numericos",
-                Validador::EsTelefonoValido);
+    private GridPane CrearFormulario(){
+        campoNombre = new CampoValidado("Nombre", "Minimo 2 caracteres", s -> Validador.EsTextoValido(s, 2, 50));
+        campoApellido = new CampoValidado("Apellido", "Minimo 2 caracteres", s -> Validador.EsTextoValido(s, 2, 50));
+        campoCorreo = new CampoValidado("correo@ejemplo.com", "Formato invalido", Validador::EsCorreoValido);
+        campoTelefono = new CampoValidado("10 digitos", "Exactamente 10 digitos numericos", Validador::EsTelefonoValido);
 
         BotonIcono btnGuardar = new BotonIcono(BotonIcono.TipoBoton.GUARDAR);
         BotonIcono btnCancelar = new BotonIcono(BotonIcono.TipoBoton.CANCELAR);
 
         btnGuardar.setOnAction(e -> Guardar());
         btnCancelar.setOnAction(e -> LimpiarFormulario());
-
         btnGuardar.setOnKeyPressed(e -> { if (e.getCode() == KeyCode.ENTER) Guardar(); });
 
         GridPane grid = new GridPane();
@@ -135,34 +123,28 @@ public class PanelClientes extends VBox implements VistaCliente {
         return grid;
     }
 
-    private Label CrearEtiquetaEstado() {
+    private Label CrearEtiquetaEstado(){
         etiquetaEstado = new Label("");
         etiquetaEstado.getStyleClass().add("etiqueta-estado");
         return etiquetaEstado;
     }
 
-    private void Guardar() {
-        if (!campoNombre.EsValido() || !campoApellido.EsValido()
-                || !campoCorreo.EsValido() || !campoTelefono.EsValido()) {
+    private void Guardar(){
+        if(!campoNombre.EsValido() || !campoApellido.EsValido() || !campoCorreo.EsValido() || !campoTelefono.EsValido()) {
             MostrarError("Corrige los campos marcados antes de guardar.");
             return;
         }
-        String nombre = campoNombre.getText();
-        String apellido = campoApellido.getText();
-        String correo = campoCorreo.getText();
-        String telefono = campoTelefono.getText();
-
-        if (IdEditando == -1) {
-            controlador.Agregar(nombre, apellido, correo, telefono);
-        } else {
-            controlador.Actualizar(IdEditando, nombre, apellido, correo, telefono);
+        if(IdEditando == -1){
+            controlador.Agregar(campoNombre.getText(), campoApellido.getText(), campoCorreo.getText(), campoTelefono.getText());
+        }else{
+            controlador.Actualizar(IdEditando, campoNombre.getText(), campoApellido.getText(), campoCorreo.getText(), campoTelefono.getText());
         }
         LimpiarFormulario();
     }
 
-    private void CargarEnFormulario() {
+    private void CargarEnFormulario(){
         Cliente sel = tabla.getSelectionModel().getSelectedItem();
-        if (sel == null) return;
+        if(sel == null) return;
         IdEditando = sel.GetId();
         campoNombre.setText(sel.GetNombre());
         campoApellido.setText(sel.GetApellido());
@@ -170,24 +152,20 @@ public class PanelClientes extends VBox implements VistaCliente {
         campoTelefono.setText(sel.GetTelefono());
     }
 
-    private void ConfirmarEliminar() {
+    private void ConfirmarEliminar(){
         Cliente sel = tabla.getSelectionModel().getSelectedItem();
-        if (sel == null) return;
+        if(sel == null) return;
         Alert alerta = new Alert(Alert.AlertType.CONFIRMATION);
         alerta.setTitle("Confirmar eliminacion");
         alerta.setHeaderText("Eliminar cliente");
         alerta.setContentText("Deseas eliminar a " + sel.GetNombreCompleto() + "?");
-        alerta.showAndWait().ifPresent(r -> {
-            if (r == ButtonType.OK) controlador.Eliminar(sel.GetId());
-        });
+        alerta.showAndWait().ifPresent(r -> {if (r == ButtonType.OK) controlador.Eliminar(sel.GetId());});
     }
 
-    private void LimpiarFormulario() {
+    private void LimpiarFormulario(){
         IdEditando = -1;
-        campoNombre.clear();
-        campoApellido.clear();
-        campoCorreo.clear();
-        campoTelefono.clear();
+        campoNombre.clear(); campoApellido.clear();
+        campoCorreo.clear(); campoTelefono.clear();
         campoNombre.getStyleClass().removeAll("campo-valido", "campo-invalido");
         campoApellido.getStyleClass().removeAll("campo-valido", "campo-invalido");
         campoCorreo.getStyleClass().removeAll("campo-valido", "campo-invalido");
@@ -198,32 +176,34 @@ public class PanelClientes extends VBox implements VistaCliente {
     @Override
     public void Refrescar(List<Cliente> clientes) {
         datos = FXCollections.observableArrayList(clientes);
-        DatosFiltrados = new FilteredList<>(datos, p -> true);
-
-        campoBusqueda.textProperty().addListener((obs, viejo, nuevo) -> {
-            DatosFiltrados.setPredicate(c -> {
-                if (nuevo == null || nuevo.isBlank()) return true;
-                String filtro = nuevo.toLowerCase();
-                return c.GetNombre().toLowerCase().contains(filtro)
-                    || c.GetApellido().toLowerCase().contains(filtro)
-                    || c.GetCorreo().toLowerCase().contains(filtro);
-            });
-        });
-
-        SortedList<Cliente> DatosOrdenados = new SortedList<>(DatosFiltrados);
-        DatosOrdenados.comparatorProperty().bind(tabla.comparatorProperty());
-        tabla.setItems(DatosOrdenados);
+        if(filtrados == null){
+            filtrados = new FilteredList<>(datos, p -> true);
+            campoBusqueda.textProperty().addListener((obs, viejo, nuevo) ->
+                filtrados.setPredicate(c -> {
+                    if(nuevo == null || nuevo.isBlank()) return true;
+                    String f = nuevo.toLowerCase();
+                    return c.GetNombre().toLowerCase().contains(f)
+                        || c.GetApellido().toLowerCase().contains(f)
+                        || c.GetCorreo().toLowerCase().contains(f);
+                })
+            );
+            SortedList<Cliente> ordenados = new SortedList<>(filtrados);
+            ordenados.comparatorProperty().bind(tabla.comparatorProperty());
+            tabla.setItems(ordenados);
+        }else{
+            filtrados.setAll(datos);
+        }
     }
 
     @Override
-    public void MostrarError(String mensaje) {
+    public void MostrarError(String mensaje){
         etiquetaEstado.setText(mensaje);
         etiquetaEstado.getStyleClass().removeAll("estado-exito");
         etiquetaEstado.getStyleClass().add("estado-error");
     }
 
     @Override
-    public void MostrarExito(String mensaje) {
+    public void MostrarExito(String mensaje){
         etiquetaEstado.setText(mensaje);
         etiquetaEstado.getStyleClass().removeAll("estado-error");
         etiquetaEstado.getStyleClass().add("estado-exito");

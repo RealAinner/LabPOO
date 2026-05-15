@@ -15,25 +15,24 @@ public class ServicioAcceso {
     private List<RegistroAcceso> registros;
     private int SiguienteId;
 
-    public ServicioAcceso() {
+    public ServicioAcceso(){
         registros = Serializador.Cargar(ARCHIVO);
-        if (registros.isEmpty()) {
+        if(registros.isEmpty()){
             registros = DatosIniciales.GenerarAccesos();
             Serializador.Guardar(registros, ARCHIVO);
         }
         SiguienteId = registros.stream().mapToInt(RegistroAcceso::GetId).max().orElse(0) + 1;
     }
 
-    public List<RegistroAcceso> GetTodos() { return new ArrayList<>(registros); }
+    public List<RegistroAcceso> GetTodos() {return new ArrayList<>(registros);}
 
-    public List<RegistroAcceso> GetAdentro() {
+    public List<RegistroAcceso> GetAdentro(){
         return registros.stream().filter(RegistroAcceso::EstaAdentro).collect(Collectors.toList());
     }
 
     public void RegistrarEntrada(int IdCliente) throws GymPOSException {
-        boolean yaAdentro = registros.stream()
-                .anyMatch(r -> r.GetIdCliente() == IdCliente && r.EstaAdentro());
-        if (yaAdentro) throw new GymPOSException("El cliente ya se encuentra en el gimnasio.");
+        boolean yaAdentro = registros.stream().anyMatch(r -> r.GetIdCliente() == IdCliente && r.EstaAdentro());
+        if(yaAdentro) throw new GymPOSException("El cliente ya se encuentra en el gimnasio.");
         registros.add(new RegistroAcceso(SiguienteId++, IdCliente));
         Serializador.Guardar(registros, ARCHIVO);
     }
@@ -47,7 +46,7 @@ public class ServicioAcceso {
         Serializador.Guardar(registros, ARCHIVO);
     }
 
-    public int GetAforo() {
+    public int GetAforo(){
         return (int) registros.stream().filter(RegistroAcceso::EstaAdentro).count();
     }
 }

@@ -1,7 +1,5 @@
 package gympos.servicio;
 
-import gympos.config.Configuracion;
-import gympos.excepcion.PagoException;
 import gympos.modelo.pago.Pago;
 import gympos.modelo.pago.Pago.EstadoPago;
 import gympos.modelo.pago.Pago.MetodoPago;
@@ -41,7 +39,6 @@ public class ServicioPago {
                 Thread.sleep(1500); //simulacion de procesamiento
                 if(Math.random() < 0.95){
                     pago.SetEstado(EstadoPago.COMPLETADO);
-                    int puntosPorPago = Configuracion.GetInstancia().GetInt("puntos.porPago");
                     Serializador.Guardar(pagos, ARCHIVO);
                     javafx.application.Platform.runLater(() -> alTerminar.accept(pago));
                 }else{
@@ -61,5 +58,5 @@ public class ServicioPago {
                 .mapToDouble(Pago::GetMonto).sum();
     }
 
-    public void Cerrar() { ejecutor.shutdown();}
+    public void Cerrar() {ejecutor.shutdown();}
 }

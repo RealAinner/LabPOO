@@ -10,17 +10,17 @@ public enum TipoMembresia {
     private final double precio;
     private final int descuento;
 
-    TipoMembresia(String nombre, double precio, int descuento) {
+    TipoMembresia(String nombre, double precio, int descuento){
         this.nombre = nombre;
         this.precio = precio;
         this.descuento = descuento;
     }
 
-    public String GetNombre() { return nombre; }
-    public double GetPrecio() { return precio; }
-    public int GetDescuento() { return descuento; }
+    public String GetNombre() {return nombre;}
+    public double GetPrecio() {return precio;}
+    public int GetDescuento() {return descuento;}
 
-    public double GetPrecioFinal() {
+    public double GetPrecioFinal(){
         return precio - (precio * descuento / 100.0);
     }
 }

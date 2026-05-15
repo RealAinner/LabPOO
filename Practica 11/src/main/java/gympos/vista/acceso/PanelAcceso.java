@@ -17,20 +17,20 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
 
 import java.time.format.DateTimeFormatter;
-import java.util.List;
 
 public class PanelAcceso extends VBox {
 
     private final ServicioAcceso servicio;
     private TableView<RegistroAcceso> tabla;
     private ObservableList<RegistroAcceso> datos;
+    private FilteredList<RegistroAcceso> filtrados;
     private TextField campoId;
     private TextField campoBusqueda;
     private Label etiquetaAforo;
     private Label etiquetaEstado;
     private static final DateTimeFormatter FMT = DateTimeFormatter.ofPattern("dd/MM HH:mm");
 
-    public PanelAcceso(ServicioAcceso servicio) {
+    public PanelAcceso(ServicioAcceso servicio){
         this.servicio = servicio;
         setSpacing(10);
         setPadding(new Insets(15));
@@ -46,12 +46,11 @@ public class PanelAcceso extends VBox {
         campoId.setPromptText("ID Cliente");
         campoId.setPrefWidth(120);
         tabla = CrearTabla();
-        getChildren().addAll(CrearEncabezado(), CrearBarraBusqueda(), tabla,
-                CrearFormulario(), etiquetaEstado);
+        getChildren().addAll(CrearEncabezado(), CrearBarraBusqueda(), tabla, CrearFormulario(), etiquetaEstado);
         Refrescar();
     }
 
-    private HBox CrearEncabezado() {
+    private HBox CrearEncabezado(){
         Label titulo = new Label("Control de Acceso");
         titulo.setStyle("-fx-font-size:18px; -fx-font-weight:bold; -fx-text-fill:#f0a500;");
         Region sep = new Region();
@@ -61,7 +60,7 @@ public class PanelAcceso extends VBox {
         return caja;
     }
 
-    private HBox CrearBarraBusqueda() {
+    private HBox CrearBarraBusqueda(){
         HBox.setHgrow(campoBusqueda, Priority.ALWAYS);
         HBox caja = new HBox(8, new Label("Buscar:"), campoBusqueda);
         caja.setAlignment(Pos.CENTER_LEFT);
@@ -69,7 +68,7 @@ public class PanelAcceso extends VBox {
     }
 
     @SuppressWarnings("unchecked")
-    private TableView<RegistroAcceso> CrearTabla() {
+    private TableView<RegistroAcceso> CrearTabla(){
         TableView<RegistroAcceso> t = new TableView<>();
         t.getStyleClass().add("tabla-principal");
         t.setPrefHeight(280);
@@ -87,26 +86,24 @@ public class PanelAcceso extends VBox {
         colEntrada.setPrefWidth(120);
 
         TableColumn<RegistroAcceso, String> colSalida = new TableColumn<>("Salida");
-        colSalida.setCellValueFactory(c -> new SimpleStringProperty(
-                c.getValue().GetSalida() != null ? c.getValue().GetSalida().format(FMT) : "Adentro"));
+        colSalida.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().GetSalida() != null ? c.getValue().GetSalida().format(FMT) : "Adentro"));
         colSalida.setPrefWidth(120);
 
         TableColumn<RegistroAcceso, String> colEstado = new TableColumn<>("Estado");
-        colEstado.setCellValueFactory(c -> new SimpleStringProperty(
-                c.getValue().EstaAdentro() ? "En gimnasio" : "Salio"));
+        colEstado.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().EstaAdentro() ? "En gimnasio" : "Salio"));
         colEstado.setPrefWidth(100);
 
         t.getColumns().addAll(colId, colCliente, colEntrada, colSalida, colEstado);
         t.setOnMouseClicked(e -> {
-            if (e.getClickCount() == 2) {
+            if(e.getClickCount() == 2){
                 RegistroAcceso sel = t.getSelectionModel().getSelectedItem();
-                if (sel != null) campoId.setText(String.valueOf(sel.GetIdCliente()));
+                if(sel != null) campoId.setText(String.valueOf(sel.GetIdCliente()));
             }
         });
         return t;
     }
 
-    private GridPane CrearFormulario() {
+    private GridPane CrearFormulario(){
         campoId.setOnKeyPressed(e -> { if (e.getCode() == KeyCode.ENTER) RegistrarEntrada(); });
         BotonIcono btnEntrada = new BotonIcono(BotonIcono.TipoBoton.AGREGAR);
         btnEntrada.setText("Entrada");
@@ -122,43 +119,47 @@ public class PanelAcceso extends VBox {
         return grid;
     }
 
-    private void RegistrarEntrada() {
-        try {
+    private void RegistrarEntrada(){
+        try{
             servicio.RegistrarEntrada(Integer.parseInt(campoId.getText().trim()));
             MostrarExito("Entrada registrada.");
             Refrescar();
-        } catch (NumberFormatException e) { MostrarError("ID invalido.");
-        } catch (GymPOSException e) { MostrarError(e.getMessage()); }
+        }catch(NumberFormatException e) {MostrarError("ID invalido.");
+        }catch(GymPOSException e) {MostrarError(e.getMessage());}
     }
 
-    private void RegistrarSalida() {
-        try {
+    private void RegistrarSalida(){
+        try{
             servicio.RegistrarSalida(Integer.parseInt(campoId.getText().trim()));
             MostrarExito("Salida registrada.");
             Refrescar();
-        } catch (NumberFormatException e) { MostrarError("ID invalido.");
-        } catch (GymPOSException e) { MostrarError(e.getMessage()); }
+        }catch(NumberFormatException e) {MostrarError("ID invalido.");
+        }catch(GymPOSException e) {MostrarError(e.getMessage());}
     }
 
-    private void Refrescar() {
+    private void Refrescar(){
         datos = FXCollections.observableArrayList(servicio.GetTodos());
-        FilteredList<RegistroAcceso> filtrados = new FilteredList<>(datos, p -> true);
-        campoBusqueda.textProperty().addListener((obs, v, nuevo) ->
-            filtrados.setPredicate(r -> nuevo == null || nuevo.isBlank()
-                || String.valueOf(r.GetIdCliente()).contains(nuevo.trim()))
-        );
-        SortedList<RegistroAcceso> ordenados = new SortedList<>(filtrados);
-        ordenados.comparatorProperty().bind(tabla.comparatorProperty());
-        tabla.setItems(ordenados);
+        if(filtrados == null){
+            filtrados = new FilteredList<>(datos, p -> true);
+            campoBusqueda.textProperty().addListener((obs, v, nuevo) ->
+                filtrados.setPredicate(r -> nuevo == null || nuevo.isBlank()
+                    || String.valueOf(r.GetIdCliente()).contains(nuevo.trim()))
+            );
+            SortedList<RegistroAcceso> ordenados = new SortedList<>(filtrados);
+            ordenados.comparatorProperty().bind(tabla.comparatorProperty());
+            tabla.setItems(ordenados);
+        }else{
+            filtrados.setAll(datos);
+        }
         etiquetaAforo.setText("Aforo: " + servicio.GetAforo() + " personas");
     }
 
-    private void MostrarError(String msg) {
+    private void MostrarError(String msg){
         etiquetaEstado.setText(msg);
         etiquetaEstado.getStyleClass().removeAll("estado-exito");
         etiquetaEstado.getStyleClass().add("estado-error");
     }
-    private void MostrarExito(String msg) {
+    private void MostrarExito(String msg){
         etiquetaEstado.setText(msg);
         etiquetaEstado.getStyleClass().removeAll("estado-error");
         etiquetaEstado.getStyleClass().add("estado-exito");

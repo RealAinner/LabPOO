@@ -1,0 +1,44 @@
+<project name="GymPOS" default="jar" basedir=".">
+
+    <property name="src"     value="src/main/java"/>
+    <property name="res"     value="src/main/resources"/>
+    <property name="build"   value="build/classes"/>
+    <property name="dist"    value="dist"/>
+    <property name="jarname" value="GymPOS.jar"/>
+
+    <!-- Ajusta esta ruta a tu instalacion de JavaFX SDK -->
+    <property name="javafx.lib" value="${user.home}/javafx-sdk/lib"/>
+
+    <path id="classpath">
+        <fileset dir="${javafx.lib}" includes="*.jar"/>
+    </path>
+
+    <target name="clean">
+        <delete dir="build"/>
+        <delete dir="${dist}"/>
+    </target>
+
+    <target name="compile" depends="clean">
+        <mkdir dir="${build}"/>
+        <javac srcdir="${src}" destdir="${build}" includeantruntime="false"
+               source="17" target="17" encoding="UTF-8">
+            <classpath refid="classpath"/>
+        </javac>
+        <copy todir="${build}">
+            <fileset dir="${res}"/>
+        </copy>
+    </target>
+
+    <target name="jar" depends="compile">
+        <mkdir dir="${dist}"/>
+        <jar destfile="${dist}/${jarname}" basedir="${build}">
+            <manifest>
+                <attribute name="Main-Class" value="gympos.App"/>
+                <attribute name="Class-Path" value="."/>
+            </manifest>
+            <zipfileset dir="${javafx.lib}" includes="*.jar" prefix=""/>
+        </jar>
+        <echo message="JAR generado: ${dist}/${jarname}"/>
+    </target>
+
+</project>

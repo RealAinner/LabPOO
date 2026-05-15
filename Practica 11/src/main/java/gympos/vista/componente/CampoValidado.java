@@ -9,7 +9,7 @@ public class CampoValidado extends TextField {
     private Predicate<String> regla;
     private final String mensajeError;
 
-    public CampoValidado(String prompt, String mensajeError, Predicate<String> regla) {
+    public CampoValidado(String prompt, String mensajeError, Predicate<String> regla){
         super();
         this.regla = regla;
         this.mensajeError = mensajeError;
@@ -18,18 +18,18 @@ public class CampoValidado extends TextField {
         textProperty().addListener((obs, viejo, nuevo) -> Validar(nuevo));
     }
 
-    public boolean Validar(String valor) {
+    public boolean Validar(String valor){
         boolean valido = regla.test(valor);
-        if (valido) {
+        if(valido){
             getStyleClass().removeAll("campo-invalido");
             getStyleClass().add("campo-valido");
-        } else {
+        }else{
             getStyleClass().removeAll("campo-valido");
             getStyleClass().add("campo-invalido");
         }
         return valido;
     }
 
-    public boolean EsValido() { return Validar(getText()); }
-    public String GetMensajeError() { return mensajeError; }
+    public boolean EsValido() {return Validar(getText());}
+    public String GetMensajeError() {return mensajeError;}
 }
