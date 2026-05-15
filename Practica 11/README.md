@@ -9,7 +9,7 @@ Nombre del gimnasio configurado: **IronPeak Gym** (modificable en `gympos.proper
 ## Estructura de Packages
 
 gympos/
-  App.java                        Punto de entrada JavaFX
+  Main.java                       Punto de entrada JavaFX (desde aqui se ejecuta)
   config/
     Configuracion.java            Singleton de configuracion
   excepcion/
