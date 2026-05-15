@@ -15,7 +15,7 @@ public class Cliente implements Serializable {
     private int puntos;
     private boolean activo;
 
-    public Cliente(int id, String nombre, String apellido, String correo, String telefono){
+    public Cliente(int id, String nombre, String apellido, String correo, String telefono) {
         this.id = id;
         this.nombre = nombre;
         this.apellido = apellido;
@@ -48,7 +48,7 @@ public class Cliente implements Serializable {
     public String GetNombreCompleto() { return nombre + " " + apellido; }
 
     @Override
-    public String toString(){
+    public String toString() {
         return id + " | " + GetNombreCompleto() + " | " + correo;
     }
 }

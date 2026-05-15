@@ -2,10 +2,15 @@ package gympos.vista;
 
 import gympos.config.Configuracion;
 import gympos.controlador.ClienteController;
+import gympos.controlador.MembresiaController;
 import gympos.servicio.ServicioCliente;
+import gympos.servicio.ServicioMembresia;
+import gympos.servicio.ServicioPago;
 import gympos.vista.cliente.PanelClientes;
+import gympos.vista.membresia.PanelMembresias;
 
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
@@ -15,7 +20,7 @@ public class VentanaPrincipal {
 
     private final Stage stage;
     private BorderPane raiz;
-    private Label etiquetaCentro;
+    private final ServicioPago servicioPago = new ServicioPago();
 
     public VentanaPrincipal(Stage stage) {
         this.stage = stage;
@@ -26,43 +31,40 @@ public class VentanaPrincipal {
         raiz.setTop(CrearMenu());
         raiz.setCenter(CrearBienvenida());
 
-        Scene escena = new Scene(raiz, 900, 620);
+        Scene escena = new Scene(raiz, 950, 650);
         escena.getStylesheets().add(
             getClass().getResource("/css/estilos.css").toExternalForm()
         );
 
-        stage.setTitle(Configuracion.GetInstancia().Get("gym.nombre") + " — GymPOS");
+        stage.setTitle(Configuracion.GetInstancia().Get("gym.nombre") + " - GymPOS");
         stage.setScene(escena);
-        stage.setMinWidth(750);
+        stage.setMinWidth(780);
         stage.setMinHeight(500);
+        stage.setOnCloseRequest(e -> servicioPago.Cerrar());
         stage.show();
     }
 
     private MenuBar CrearMenu() {
         Menu menuClientes = new Menu("Clientes");
         MenuItem miGestion = new MenuItem("Gestion de Clientes");
-        miGestion.setOnAction(e -> MostrarPanel(new PanelClientes(
-            new ClienteController(new ServicioCliente()))));
+        miGestion.setOnAction(e -> raiz.setCenter(
+            new PanelClientes(new ClienteController(new ServicioCliente()))));
         menuClientes.getItems().add(miGestion);
 
         Menu menuMembresias = new Menu("Membresias");
         MenuItem miMembresias = new MenuItem("Sistema de Membresias");
-        miMembresias.setOnAction(e -> MostrarProximamente("Membresias"));
+        miMembresias.setOnAction(e -> raiz.setCenter(
+            new PanelMembresias(new MembresiaController(new ServicioMembresia()), servicioPago, stage)));
         menuMembresias.getItems().add(miMembresias);
-
-        Menu menuPagos = new Menu("Pagos");
-        MenuItem miPagos = new MenuItem("Procesador de Pagos");
-        miPagos.setOnAction(e -> MostrarProximamente("Pagos"));
-        menuPagos.getItems().add(miPagos);
 
         Menu menuAcceso = new Menu("Acceso");
         MenuItem miAcceso = new MenuItem("Control de Acceso");
-        miAcceso.setOnAction(e -> MostrarProximamente("Control de Acceso"));
+        miAcceso.setOnAction(e -> MostrarProximamente("Control de Acceso - ZIP 4"));
         menuAcceso.getItems().add(miAcceso);
 
         Menu menuReportes = new Menu("Reportes");
         MenuItem miReportes = new MenuItem("Generar Reporte");
-        miReportes.setOnAction(e -> MostrarProximamente("Reportes"));
+        miReportes.setOnAction(e -> MostrarProximamente("Reportes - ZIP 5"));
         menuReportes.getItems().add(miReportes);
 
         Menu menuAyuda = new Menu("Ayuda");
@@ -70,7 +72,7 @@ public class VentanaPrincipal {
         miAcerca.setOnAction(e -> MostrarAcercaDe());
         menuAyuda.getItems().add(miAcerca);
 
-        MenuBar barra = new MenuBar(menuClientes, menuMembresias, menuPagos, menuAcceso, menuReportes, menuAyuda);
+        MenuBar barra = new MenuBar(menuClientes, menuMembresias, menuAcceso, menuReportes, menuAyuda);
         barra.getStyleClass().add("barra-menu");
         return barra;
     }
@@ -79,24 +81,20 @@ public class VentanaPrincipal {
         String nombre = Configuracion.GetInstancia().Get("gym.nombre");
         Label titulo = new Label(nombre);
         titulo.getStyleClass().add("titulo-bienvenida");
-        Label sub = new Label("Sistema de Gestion — GymPOS");
+        Label sub = new Label("Sistema de Gestion - GymPOS");
         sub.getStyleClass().add("subtitulo-bienvenida");
         VBox caja = new VBox(15, titulo, sub);
-        caja.setAlignment(javafx.geometry.Pos.CENTER);
+        caja.setAlignment(Pos.CENTER);
         caja.setPadding(new Insets(40));
         return caja;
     }
 
-    private void MostrarPanel(javafx.scene.Node panel) {
-        raiz.setCenter(panel);
-    }
-
     private void MostrarProximamente(String modulo) {
-        Label lbl = new Label(modulo + "\n(Disponible en siguiente ZIP)");
+        Label lbl = new Label(modulo + "\n(Proximo ZIP)");
         lbl.getStyleClass().add("subtitulo-bienvenida");
-        lbl.setAlignment(javafx.geometry.Pos.CENTER);
+        lbl.setAlignment(Pos.CENTER);
         VBox caja = new VBox(lbl);
-        caja.setAlignment(javafx.geometry.Pos.CENTER);
+        caja.setAlignment(Pos.CENTER);
         raiz.setCenter(caja);
     }
 

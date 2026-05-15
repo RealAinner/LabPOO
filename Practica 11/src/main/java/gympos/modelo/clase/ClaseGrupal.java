@@ -15,7 +15,7 @@ public class ClaseGrupal implements Serializable {
     private int capacidad;
     private List<Integer> inscritos;
 
-    public ClaseGrupal(int id, String nombre, String instructor, LocalDateTime FechaHora, int capacidad){
+    public ClaseGrupal(int id, String nombre, String instructor, LocalDateTime FechaHora, int capacidad) {
         this.id = id;
         this.nombre = nombre;
         this.instructor = instructor;
@@ -24,20 +24,20 @@ public class ClaseGrupal implements Serializable {
         this.inscritos = new ArrayList<>();
     }
 
-    public int GetId() { return id;}
-    public String GetNombre() { return nombre;}
-    public void SetNombre(String nombre) { this.nombre = nombre;}
-    public String GetInstructor() { return instructor;}
-    public void SetInstructor(String instructor) { this.instructor = instructor;}
-    public LocalDateTime GetFechaHora() { return FechaHora;}
-    public void SetFechaHora(LocalDateTime FechaHora) { this.FechaHora = FechaHora;}
-    public int GetCapacidad() { return capacidad;}
-    public List<Integer> GetInscritos() { return inscritos;}
+    public int GetId() { return id; }
+    public String GetNombre() { return nombre; }
+    public void SetNombre(String nombre) { this.nombre = nombre; }
+    public String GetInstructor() { return instructor; }
+    public void SetInstructor(String instructor) { this.instructor = instructor; }
+    public LocalDateTime GetFechaHora() { return FechaHora; }
+    public void SetFechaHora(LocalDateTime FechaHora) { this.FechaHora = FechaHora; }
+    public int GetCapacidad() { return capacidad; }
+    public List<Integer> GetInscritos() { return inscritos; }
 
-    public boolean HayLugar() { return inscritos.size() < capacidad;}
+    public boolean HayLugar() { return inscritos.size() < capacidad; }
 
-    public boolean Inscribir(int IdCliente){
-        if(HayLugar() && !inscritos.contains(IdCliente)){
+    public boolean Inscribir(int IdCliente) {
+        if (HayLugar() && !inscritos.contains(IdCliente)) {
             inscritos.add(IdCliente);
             return true;
         }
