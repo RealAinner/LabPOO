@@ -3,10 +3,11 @@ package gympos.vista;
 import gympos.config.Configuracion;
 import gympos.controlador.ClienteController;
 import gympos.controlador.MembresiaController;
-import gympos.servicio.ServicioCliente;
-import gympos.servicio.ServicioMembresia;
-import gympos.servicio.ServicioPago;
+import gympos.servicio.*;
+import gympos.vista.acceso.PanelAcceso;
+import gympos.vista.calendario.PanelCalendario;
 import gympos.vista.cliente.PanelClientes;
+import gympos.vista.inventario.PanelInventario;
 import gympos.vista.membresia.PanelMembresias;
 
 import javafx.geometry.Insets;
@@ -22,20 +23,17 @@ public class VentanaPrincipal {
     private BorderPane raiz;
     private final ServicioPago servicioPago = new ServicioPago();
 
-    public VentanaPrincipal(Stage stage) {
-        this.stage = stage;
-    }
+    public VentanaPrincipal(Stage stage) { this.stage = stage; }
 
     public void Mostrar() {
         raiz = new BorderPane();
         raiz.setTop(CrearMenu());
         raiz.setCenter(CrearBienvenida());
 
-        Scene escena = new Scene(raiz, 950, 650);
+        Scene escena = new Scene(raiz, 980, 680);
         escena.getStylesheets().add(
             getClass().getResource("/css/estilos.css").toExternalForm()
         );
-
         stage.setTitle(Configuracion.GetInstancia().Get("gym.nombre") + " - GymPOS");
         stage.setScene(escena);
         stage.setMinWidth(780);
@@ -59,8 +57,15 @@ public class VentanaPrincipal {
 
         Menu menuAcceso = new Menu("Acceso");
         MenuItem miAcceso = new MenuItem("Control de Acceso");
-        miAcceso.setOnAction(e -> MostrarProximamente("Control de Acceso - ZIP 4"));
+        miAcceso.setOnAction(e -> raiz.setCenter(new PanelAcceso(new ServicioAcceso())));
         menuAcceso.getItems().add(miAcceso);
+
+        Menu menuInventario = new Menu("Inventario");
+        MenuItem miInventario = new MenuItem("Equipos");
+        miInventario.setOnAction(e -> raiz.setCenter(new PanelInventario(new ServicioEquipo())));
+        MenuItem miCalendario = new MenuItem("Clases Grupales");
+        miCalendario.setOnAction(e -> raiz.setCenter(new PanelCalendario(new ServicioClase())));
+        menuInventario.getItems().addAll(miInventario, miCalendario);
 
         Menu menuReportes = new Menu("Reportes");
         MenuItem miReportes = new MenuItem("Generar Reporte");
@@ -72,14 +77,14 @@ public class VentanaPrincipal {
         miAcerca.setOnAction(e -> MostrarAcercaDe());
         menuAyuda.getItems().add(miAcerca);
 
-        MenuBar barra = new MenuBar(menuClientes, menuMembresias, menuAcceso, menuReportes, menuAyuda);
+        MenuBar barra = new MenuBar(menuClientes, menuMembresias, menuAcceso,
+                menuInventario, menuReportes, menuAyuda);
         barra.getStyleClass().add("barra-menu");
         return barra;
     }
 
     private VBox CrearBienvenida() {
-        String nombre = Configuracion.GetInstancia().Get("gym.nombre");
-        Label titulo = new Label(nombre);
+        Label titulo = new Label(Configuracion.GetInstancia().Get("gym.nombre"));
         titulo.getStyleClass().add("titulo-bienvenida");
         Label sub = new Label("Sistema de Gestion - GymPOS");
         sub.getStyleClass().add("subtitulo-bienvenida");
@@ -99,11 +104,11 @@ public class VentanaPrincipal {
     }
 
     private void MostrarAcercaDe() {
-        Alert alerta = new Alert(Alert.AlertType.INFORMATION);
-        alerta.setTitle("Acerca de GymPOS");
-        alerta.setHeaderText(Configuracion.GetInstancia().Get("gym.nombre"));
-        alerta.setContentText("GymPOS v" + Configuracion.GetInstancia().Get("gym.version")
+        Alert a = new Alert(Alert.AlertType.INFORMATION);
+        a.setTitle("Acerca de GymPOS");
+        a.setHeaderText(Configuracion.GetInstancia().Get("gym.nombre"));
+        a.setContentText("GymPOS v" + Configuracion.GetInstancia().Get("gym.version")
                 + "\nSistema de gestion de gimnasio.\nDesarrollado con JavaFX.");
-        alerta.showAndWait();
+        a.showAndWait();
     }
 }
