@@ -11,7 +11,7 @@ Nombre del gimnasio configurado: **IronPeak Gym** (modificable en `gympos.proper
 ### 1. Instalar Java 21
 
 Descarga e instala Java 21 desde:
-https://adoptium.net
+https://www.oracle.com/latam/java/technologies/downloads/ 
 
 Verifica que este instalado correctamente abriendo una terminal y ejecutando:
 ```
