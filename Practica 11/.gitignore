@@ -2,9 +2,6 @@
 build/
 *.class
 
-# JAR generado
-GymPOS.jar
-
 # Librerias JavaFX
 lib/
 
