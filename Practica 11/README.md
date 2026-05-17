@@ -1,5 +1,8 @@
 # GymPOS - Sistema de Gestion de Gimnasio
 
+## Video de Demostracion
+https://drive.google.com/file/d/1rQ6F2j5u1LtXPQK7PBUPeL6wxNciR4UP/view?usp=sharing 
+
 ## Descripcion General
 Aplicacion de escritorio JavaFX para gestion completa de un gimnasio.
 Nombre del gimnasio configurado: **IronPeak Gym** (modificable en `gympos.properties`).
